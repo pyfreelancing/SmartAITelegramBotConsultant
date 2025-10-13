@@ -5,5 +5,5 @@ from aiogram.fsm.state import State, StatesGroup
 class SearchQuery(StatesGroup):
 	waiting_for_category = State()
 	waiting_for_budget = State()
-	showing_results = State()
+	waiting_for_results = State()
 
