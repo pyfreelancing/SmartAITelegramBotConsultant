@@ -2,6 +2,14 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardButton
 
 
+def start_keyboard():
+	keyboard = InlineKeyboardBuilder()
+	query_button = InlineKeyboardButton(text="Найти подходящее устройство", callback_data="search_query")
+	free_question_button = InlineKeyboardButton(text="Задать вопрос свободно", callback_data="free_question")
+	keyboard.add(query_button, free_question_button)
+	return keyboard.as_markup()
+
+
 def category_keyboard():
 	keyboard = InlineKeyboardBuilder()
 	laptops_button = InlineKeyboardButton(text="Ноутбуки", callback_data="laptops")
