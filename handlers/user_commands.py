@@ -1,16 +1,16 @@
 from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-import asyncio
 
 from states.search_query import SearchQuery
-from keyboards.inline_keyboards import category_keyboard
+from keyboards.inline_keyboards import start_keyboard, category_keyboard
 
 router = Router()
 
+
 @router.message(Command("start"))
 async def cmd_start(message: types.Message):
-	await message.answer("Привет!")
+	await message.answer("Привет!", reply_markup=start_keyboard())
 
 
 @router.message(Command("search"))
