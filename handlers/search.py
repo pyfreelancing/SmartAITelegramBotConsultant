@@ -2,13 +2,20 @@ from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 
 from states.search_query import SearchQuery
-from keyboards.inline_keyboards import budget_keyboard
+from keyboards.inline_keyboards import category_keyboard, budget_keyboard
 from utils.validators import (
 	is_valid_category_callback, is_valid_category_message,
 	is_valid_budget_callback, is_valid_budget_message
 )
 
 router = Router()
+
+
+@router.callback_query(lambda callback: callback.data == "search_query")
+async def start_search(callback: types.CallbackQuery, state: FSMContext):
+	await callback.message.answer("Выберите категорию: ", reply_markup=category_keyboard())
+	await state.set_state(SearchQuery.waiting_for_category)
+	await callback.answer()
 
 
 @router.callback_query(
