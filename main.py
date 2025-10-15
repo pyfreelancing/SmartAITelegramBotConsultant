@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 import os
 
-from handlers import user_commands, user_messages
+from handlers import commands, common, search
 
 load_dotenv()
 
@@ -14,8 +14,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 async def main():
 	bot = Bot(token=BOT_TOKEN)
 	dp = Dispatcher()
-	dp.include_router(user_commands.router)
-	dp.include_router(user_messages.router)
+	dp.include_router(commands.router)
+	dp.include_router(common.router)
+	dp.include_router(search.router)
 	await dp.start_polling(bot)
 
 
