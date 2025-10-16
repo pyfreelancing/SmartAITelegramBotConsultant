@@ -91,8 +91,8 @@ class RAGManager:
 
 	async def get_response(self, user_question: str) -> str:
 		search_results = await self._search_similar_documents(
-			user_question=user_question,
-			 n_results=self.config.n_results
+			query=user_question,
+			n_results=self.config.n_results
 		)
 		documents = search_results["documents"][0]
 		metadatas = search_results["metadatas"][0]
