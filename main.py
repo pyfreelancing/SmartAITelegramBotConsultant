@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 import os
 
-from handlers import commands, free_question, search
+from handlers import commands, free_question, search, finish
 from utils.rag_manager import RAGManager
 from utils.config import RAGConfig
 
@@ -15,11 +15,13 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(token=BOT_TOKEN)
 ragman = RAGManager(config=RAGConfig())
 
+
 async def main():
 	dp = Dispatcher()
 	dp.include_router(commands.router)
 	dp.include_router(free_question.router)
 	dp.include_router(search.router)
+	dp.include_router(finish.router)
 	await dp.start_polling(bot)
 
 
