@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 
 from states.search_query import SearchQuery
-from keyboards.inline_keyboards import category_keyboard, budget_keyboard
+from keyboards.inline_keyboards import category_keyboard, budget_keyboard, finish_keyboard
 from utils.validators import (
 	is_valid_category_callback,	is_valid_budget_callback
 )
@@ -39,9 +39,9 @@ async def process_budget_by_button(callback: types.CallbackQuery, state: FSMCont
 	await state.set_state(SearchQuery.waiting_for_results)
 
 	data = await state.get_data()
-	query = f"Категория: {data["category"]}. Цена: {data["budget"]} тысяч рублей"
+	query = f"Категория: {data["category"]}. Цена: {data["budget"]}"
 	
 	response = await gpt.get_response(query)
 
-	await callback.message.answer(response)
+	await callback.message.answer(response, reply_markup=finish_keyboard())
 	await callback.answer()

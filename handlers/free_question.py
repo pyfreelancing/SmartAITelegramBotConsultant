@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 
-from keyboards.inline_keyboards import free_question_keyboard
+from keyboards.inline_keyboards import free_question_keyboard, finish_keyboard
 from states.free_question import FreeQuestion
 from utils import gpt
 
@@ -31,7 +31,7 @@ async def process_free_question(message: types.Message, state: FSMContext):
 	lambda callback: callback.data == "free_question_yes"
 	)
 async def free_question_yes(callback: types.CallbackQuery, state: FSMContext):
-	await callback.message.answer("Рад был помочь!")
+	await callback.message.answer("Благодарим за обращение. Хорошего дня!", reply_markup=finish_keyboard())
 	await state.clear()
 	await callback.answer()
 
