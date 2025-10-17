@@ -5,6 +5,7 @@ from openai import AsyncOpenAI
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
+import asyncio
 
 from utils.config import RAGConfig
 from other.templates import get_gpt_request_template
@@ -24,8 +25,13 @@ class RAGManager:
 		self._openai_client = None
 		self._llm = None
 
+		self._initialized = False
+
 
 	async def initialize(self):
+		if self._initialized:
+			return
+		
 		# Initialize OpenAI client
 		self._openai_client = AsyncOpenAI(
 			api_key=OPENAI_API_KEY,
@@ -52,6 +58,8 @@ class RAGManager:
 
 		await self._chromadb_client.heartbeat()
 		self._chromadb_collection = await self._chromadb_client.get_collection(self.config.collection_name)
+
+		self._initialized = True
 
 
 	async def _search_similar_documents(self, query: str, n_results: int):
@@ -94,3 +102,22 @@ class RAGManager:
 		response = self._llm.invoke(final_prompt)
 
 		return response.content
+	
+
+	async def update_db(self, args: dict):
+		cmd = ["python", "utils/vectorize_db.py", "--csv-file", args["csv_file"]]
+
+		if args["db_path"] is not None:
+			cmd.extend(["--db-path", args["db_path"]])
+		if args["collection"] is not None:
+			cmd.extend(["--collection", args["collection"]])
+		if args["batch_size"] is not None:
+			cmd.extend(["--batch-size", args["batch_size"]])
+		
+		process = await asyncio.create_subprocess_exec(*cmd)
+		return_code = await process.wait()
+
+		if return_code == 0:
+			return "DB update successfully"
+		else:
+			return f"DB update failed with code: {process.returncode}"
