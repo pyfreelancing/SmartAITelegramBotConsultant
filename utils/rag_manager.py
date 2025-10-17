@@ -7,6 +7,7 @@ from langchain.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 
 from utils.config import RAGConfig
+from other.templates import get_gpt_request_template
 
 load_dotenv()
 
@@ -70,21 +71,7 @@ class RAGManager:
 
 
 	def _get_prompt_template(self):
-		template = """
-		Ты - консультант в магазине электроники. Используй ТОЛЬКО эту информацию:
-
-		ИНФОРМАЦИЯ О ТОВАРАХ:
-		{context}
-
-		ВОПРОС ПОКУПАТЕЛЯ: {question}
-
-		Ответь на русском, будь полезным ассистентом. Если нет подходящих товаров - честно скажи.
-		Не придумывай информацию. Будь дружелюбным. 
-		Ты можешь использовать информацию о комплектующих из своей базы знаний, 
-		чтобы подобрать под потребности "игрового", "домашнего" и т.д.
-
-		Ответ:
-		"""
+		template = get_gpt_request_template()
 		prompt = ChatPromptTemplate.from_template(template)
 		return prompt
 
