@@ -10,8 +10,9 @@ def is_valid_category_callback(callback: CallbackQuery) -> bool:
 
 def is_valid_budget_callback(callback: CallbackQuery) -> bool:
 	return (
-		callback.data == "below 20" or \
-		callback.data == "from 20 to 60" or \
-		callback.data == "from 60 to 100" or \
-		callback.data == "above 100"
+		callback.data == "below_20k_rub" or \
+		callback.data == "from_20k_to_60k_rub" or \
+		callback.data == "from_60k_to_100k_rub" or \
+		callback.data == "above_100k_rub" or \
+		callback.data == "any_budget"
 		)
