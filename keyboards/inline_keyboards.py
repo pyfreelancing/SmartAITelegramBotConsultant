@@ -14,7 +14,7 @@ def start_keyboard():
 def category_keyboard():
 	keyboard = InlineKeyboardBuilder()
 	laptops_button = InlineKeyboardButton(text="Ноутбуки", callback_data="laptop")
-	smartphones_button = InlineKeyboardButton(text="Смартфоны", callback_data="smartphone")
+	smartphones_button = InlineKeyboardButton(text="Смартфоны", callback_data="phone")
 	tablet_button = InlineKeyboardButton(text="Планшеты", callback_data="tablet")
 	wearable_button = InlineKeyboardButton(text="Смартчасы", callback_data="wearable")
 	audio_button = InlineKeyboardButton(text="Наушники", callback_data="audio")
