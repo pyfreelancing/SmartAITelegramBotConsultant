@@ -4,7 +4,7 @@ from aiogram.types import InlineKeyboardButton
 
 def start_keyboard():
 	keyboard = InlineKeyboardBuilder()
-	query_button = InlineKeyboardButton(text="Найти подходящее устройство", callback_data="search_query")
+	query_button = InlineKeyboardButton(text="Найти подходящее устройство по фильтрам", callback_data="search_query")
 	free_question_button = InlineKeyboardButton(text="Задать вопрос свободно", callback_data="free_question")
 	keyboard.add(query_button, free_question_button)
 	keyboard.adjust(1)
@@ -36,11 +36,12 @@ def category_keyboard():
 
 def budget_keyboard():
 	keyboard = InlineKeyboardBuilder()
-	below_20_button = InlineKeyboardButton(text="До 20.000 рулей", callback_data="below 20")
-	from_20_to_60_button = InlineKeyboardButton(text="От 20.000 до 60.000 рублей", callback_data="from 20 to 60")
-	from_60_to_100_button = InlineKeyboardButton(text="От 60.000 до 100.000 рублей", callback_data="from 60 to 100")
-	above_100_button = InlineKeyboardButton(text="Свыше 100.000 рублей", callback_data="above 100")
-	keyboard.add(below_20_button, from_20_to_60_button, from_60_to_100_button, above_100_button)
+	below_20_button = InlineKeyboardButton(text="До 20.000 рублей", callback_data="below_20k_rub")
+	from_20_to_60_button = InlineKeyboardButton(text="От 20.000 до 60.000 рублей", callback_data="from_20k_to_60k_rub")
+	from_60_to_100_button = InlineKeyboardButton(text="От 60.000 до 100.000 рублей", callback_data="from_60k_to_100k_rub")
+	above_100_button = InlineKeyboardButton(text="Свыше 100.000 рублей", callback_data="above_100k_rub")
+	any_budget_button = InlineKeyboardButton(text="Любой бюджет", callback_data="any_budget")
+	keyboard.add(below_20_button, from_20_to_60_button, from_60_to_100_button, above_100_button, any_budget_button)
 	keyboard.adjust(1)
 	return keyboard.as_markup()
 
@@ -51,4 +52,11 @@ def free_question_keyboard():
 	no_button = InlineKeyboardButton(text="Нет, задать другой", callback_data="free_question_no")
 	keyboard.add(yes_button, no_button)
 	keyboard.adjust(1)
+	return keyboard.as_markup()
+
+
+def finish_keyboard():
+	keyboard = InlineKeyboardBuilder()
+	return_button = InlineKeyboardButton(text="Вернуться в главное меню", callback_data="return_main_menu")
+	keyboard.add(return_button)
 	return keyboard.as_markup()
