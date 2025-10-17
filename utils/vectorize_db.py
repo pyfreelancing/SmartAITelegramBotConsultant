@@ -14,6 +14,9 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_PROXY = os.getenv("OPENAI_PROXY")
 
+if OPENAI_PROXY.lower() == "none":
+	OPENAI_PROXY = None
+
 config = RAGConfig()
 
 def parse_arguments():
