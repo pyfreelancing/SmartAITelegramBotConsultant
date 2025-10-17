@@ -1,4 +1,4 @@
-from main import ragman
+from init import ragman
 
 async def get_response(message: str) -> str:
 	await ragman.initialize()
