@@ -1,7 +1,7 @@
 from aiogram import Router, types
 
 from keyboards.inline_keyboards import start_keyboard
-from other.templates import get_start_message_template
+from utils.templates import get_start_message_template
 
 router = Router()
 

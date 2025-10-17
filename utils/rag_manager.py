@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import asyncio
 
 from utils.config import RAGConfig
-from other.templates import get_gpt_request_template
+from utils.templates import get_gpt_request_template
 
 load_dotenv()
 

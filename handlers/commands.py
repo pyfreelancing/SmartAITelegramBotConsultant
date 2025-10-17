@@ -6,7 +6,7 @@ import os
 
 from states.search_query import SearchQuery
 from keyboards.inline_keyboards import start_keyboard
-from other.templates import get_start_message_template
+from utils.templates import get_start_message_template
 from init import ragman
 
 load_dotenv()
