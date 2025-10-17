@@ -11,8 +11,11 @@
 
 **Скриншоты и демо**:
 - Запрос по фильтрам: 
+
 ![Запрос по фильтрам](filters.gif)
+
 - Свободный запрос:
+
 ![Свободный запрос](free.gif)
 - Ссылка на бота: [t.me/SmartAIDevicesConsultant_bot](https://t.me/SmartAIDevicesConsultant_bot)
 
