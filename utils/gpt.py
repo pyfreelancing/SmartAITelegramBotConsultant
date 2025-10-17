@@ -1,2 +1,6 @@
-def answer_free_question(message: str) -> str:
-	return f"{message}\n\nМне удалось ответить на Ваш вопрос?"
+from main import ragman
+
+async def get_response(message: str) -> str:
+	await ragman.initialize()
+	response = await ragman.get_response(user_question=message)
+	return response

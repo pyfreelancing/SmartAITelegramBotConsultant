@@ -4,9 +4,9 @@ from aiogram.fsm.context import FSMContext
 from states.search_query import SearchQuery
 from keyboards.inline_keyboards import category_keyboard, budget_keyboard
 from utils.validators import (
-	is_valid_category_callback, is_valid_category_message,
-	is_valid_budget_callback, is_valid_budget_message
+	is_valid_category_callback,	is_valid_budget_callback
 )
+from utils import gpt
 
 router = Router()
 
@@ -29,17 +29,6 @@ async def process_category_by_button(callback: types.CallbackQuery, state: FSMCo
 	await callback.answer()
 
 
-@router.message(SearchQuery.waiting_for_category)
-async def process_category_manual(message: types.Message, state: FSMContext):
-	if not is_valid_category_message(message):
-		await message.answer("Пожалуйста, укажите правильную категорию")
-		return
-	
-	await message.answer("Введите бюджет:", reply_markup=budget_keyboard())
-	await state.update_data(category=message.text)
-	await state.set_state(SearchQuery.waiting_for_budget)
-
-
 @router.callback_query(
 	SearchQuery.waiting_for_budget,
 	lambda callback: is_valid_budget_callback(callback)
@@ -48,15 +37,11 @@ async def process_budget_by_button(callback: types.CallbackQuery, state: FSMCont
 	await callback.message.answer("Ищу подходящий вариант...")
 	await state.update_data(budget=callback.data)
 	await state.set_state(SearchQuery.waiting_for_results)
-	await callback.answer()
 
-
-@router.message(SearchQuery.waiting_for_budget)
-async def process_budget_manual(message: types.Message, state: FSMContext):
-	if not is_valid_budget_message(message):
-		await message.answer("Пожалуйста, введите бюджет цифрами")
-		return
+	data = await state.get_data()
+	query = f"Категория: {data["category"]}. Цена: {data["budget"]} тысяч рублей"
 	
-	await message.answer("Ищу подходящий вариант...")
-	await state.update_data(budget=message.text)
-	await state.set_state(SearchQuery.waiting_for_results)
+	response = await gpt.get_response(query)
+
+	await callback.message.answer(response)
+	await callback.answer()

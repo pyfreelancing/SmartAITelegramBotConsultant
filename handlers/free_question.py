@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 
 from keyboards.inline_keyboards import free_question_keyboard
 from states.free_question import FreeQuestion
-from utils.gpt import answer_free_question
+from utils import gpt
 
 router = Router()
 
@@ -17,8 +17,12 @@ async def start_free_question(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(FreeQuestion.waiting_for_question)
 async def process_free_question(message: types.Message, state: FSMContext):
-	response = answer_free_question(message.text)
-	await message.answer(response, reply_markup=free_question_keyboard())
+	await message.answer("Обрабатываю ваш вопрос. Пожалуйста, подождите...")
+	response = await gpt.get_response(message.text)
+	end = "\n\nВас устроил ответ?"
+
+	await message.answer(response+end, reply_markup=free_question_keyboard())
+
 	await state.set_state(FreeQuestion.waiting_for_confirmation)
 
 
